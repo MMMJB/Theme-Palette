@@ -1,28 +1,38 @@
 import request from "../Utils/requests";
 
-export default function generatePalette(startColor) {
-    const colors = document.querySelectorAll(".color");
-    var palette = [];
+export default class paletteGenerator {
+    constructor(light, mid, dark) {
+        this.light = light;
+        this.mid = mid;
+        this.dark = dark;
 
-    const data = {
-        model: "ui",
-        input: [
-            "N",
-            "N",
-            startColor,
-            "N",
-            "N"
-        ]
-    };
+        this.requestColors();
+    }
 
-    request("http://colormind.io/api/", "POST", r => {
-        const response = JSON.parse(r).result;
+    requestColors() {
+        const colors = document.querySelectorAll(".color");
+        var palette = [];
 
-        colors.forEach((c, i) => {
-            c.style.backgroundColor = `rgb(${response[i][0]},${response[i][1]},${response[i][2]})`;
-            palette.push(c);
-        })
+        const data = {
+            model: "ui",
+            input: [
+                this.light,
+                "N",
+                this.mid,
+                "N",
+                this.dark
+            ]
+        };
 
-        return palette;
-    }, data);
+        request("http://colormind.io/api/", "POST", r => {
+            const response = JSON.parse(r).result;
+
+            colors.forEach((c, i) => {
+                c.style.backgroundColor = `rgb(${response[i][0]},${response[i][1]},${response[i][2]})`;
+                palette.push(c);
+            })
+
+            return palette;
+        }, data);
+    }
 }

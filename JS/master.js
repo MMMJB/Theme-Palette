@@ -1,8 +1,15 @@
-import generateTheme from "./Steps/theme";
-import generatePalette from "./Steps/palette";
+import { EventEmitter } from "events";
 
-export default class Website {
+import themeGenerator from "./Steps/theme";
+import paletteGenerator from "./Steps/palette";
+
+export default class Website extends EventEmitter {
     constructor () {
-        generateTheme().then(r => console.log(r));
+        super();
+
+        this.themeGenerator = new themeGenerator();
+        this.themeGenerator.on("themeGenerated", _ => {
+            this.paletteGenerator = new paletteGenerator(this.themeGenerator.light, this.themeGenerator.mid, this.themeGenerator.dark)
+        })
     }
 }
