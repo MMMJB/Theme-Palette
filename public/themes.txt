@@ -9,7 +9,6 @@ christmas
 forest
 beach
 vegetables
-fruits
 landscape
 mountains
 desert
@@ -24,9 +23,10 @@ spring
 cupcake
 painting
 fantasy
-music
 statue
 technology
 abstract
 island
-tree
+butterfly
+tropical
+coffee

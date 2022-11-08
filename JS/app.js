@@ -1,5 +1,5 @@
-import Website from "./master";
+import WebsiteGenerator from "./master";
 
 window.onload = _ => {
-    const website = new Website();
+    const website = new WebsiteGenerator();
 };

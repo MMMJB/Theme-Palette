@@ -1,10 +1,11 @@
+import { EventEmitter } from "events";
+
 import request from "../Utils/requests";
 
-export default class paletteGenerator {
-    constructor(light, mid, dark) {
-        this.light = light;
-        this.mid = mid;
-        this.dark = dark;
+export default class paletteGenerator extends EventEmitter {
+    constructor(colors) {
+        super();
+        this.colors = colors;
 
         this.requestColors();
     }
@@ -16,13 +17,18 @@ export default class paletteGenerator {
         const data = {
             model: "ui",
             input: [
-                this.light,
-                "N",
-                this.mid,
-                "N",
-                this.dark
+                this.colors.ls,
+                this.colors.la,
+                this.colors.bc,
+                this.colors.da,
+                this.colors.ds
             ]
         };
+
+        data.input.forEach(e => {
+            const c = `rgb(${e.join(",")})`;
+            console.log(`%c${c}`, `background-color:${c}`);
+        })
 
         request("http://colormind.io/api/", "POST", r => {
             const response = JSON.parse(r).result;
@@ -32,7 +38,7 @@ export default class paletteGenerator {
                 palette.push(c);
             })
 
-            return palette;
+            this.emit("paletteGenerated");
         }, data);
     }
 }

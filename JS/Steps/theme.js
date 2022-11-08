@@ -8,7 +8,7 @@ export default class themeGenerator extends EventEmitter {
         super();
         var theme;
 
-        request("/public/themes.txt", "GET", r => {
+        request("/themes.txt", "GET", r => {
             const response = r.split("\n");
 
             theme = response[Math.floor(Math.random() * response.length)];
@@ -21,7 +21,9 @@ export default class themeGenerator extends EventEmitter {
             const KEY = "31117334-98f93316f25d761fec9942630";
 
             request(`https://pixabay.com/api/?key=${KEY}&q=${theme}`, "GET", r => {
-                const response = JSON.parse(r).hits;
+                const response = JSON.parse(r).hits, len = response.length;
+                if (response == undefined) return this.emit("themeGenerationError");
+
                 var brightnesses = [], queue = response.length, loaded = 0;
 
                 response.forEach(h => {
@@ -40,10 +42,15 @@ export default class themeGenerator extends EventEmitter {
                             brightnesses.sort((a, b) => b[1] - a[1]);
 
                             const colToArr = col => Array.from(col.replaceAll(/rgb\(|\)/g, "").split(","), e => e = parseFloat(e));
+                            const numB = brightnesses.length;
 
-                            this.light = colToArr(brightnesses[0][0]);
-                            this.mid = colToArr(brightnesses[Math.floor(brightnesses.length / 2)][0]);
-                            this.dark = colToArr(brightnesses[brightnesses.length - 1][0]);
+                            this.colors = {
+                                ls: colToArr(brightnesses[0][0]),
+                                la: len % 4 == 0 ? colToArr(brightnesses[numB / 4][0]) : "N",
+                                bc: colToArr(brightnesses[numB / 2][0]),
+                                da: len % 4 == 0 ? colToArr(brightnesses[numB * 3 / 4][0]) : "N",
+                                ds: colToArr(brightnesses[numB - 1][0])
+                            }
 
                             this.emit("themeGenerated");
                         }
