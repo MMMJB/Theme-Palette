@@ -21,7 +21,10 @@ export default class StaggerFill {
         var growing = 1;
 
         var animating = setInterval(_ => {
-            if (growing == this.sizes.length - 1 && this.sizes[len - 2] <= 1) clearInterval(animating);
+            if (growing == this.sizes.length - 1 && this.sizes[len - 2] <= 1) {
+                this.parent.emit("finishedAnimating");
+                clearInterval(animating);
+            }
 
             for (let i = 0; i < growing; i++)
                 if (this.sizes[i] > 1) this.sizes[i] = lerp(this.sizes[i], 0, speed);
