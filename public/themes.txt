@@ -2,7 +2,6 @@ halloween
 flower
 rainbow
 dog
-money
 car
 nature
 christmas
@@ -25,7 +24,6 @@ painting
 fantasy
 statue
 technology
-abstract
 island
 butterfly
 tropical

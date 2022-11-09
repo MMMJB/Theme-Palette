@@ -1,18 +1,18 @@
-import { EventEmitter } from "events";
+import WebsiteGenerator from "../master";
 
 import request from "../Utils/requests";
 
-export default class paletteGenerator extends EventEmitter {
-    constructor(colors) {
-        super();
+export default class PaletteGenerator {
+    constructor (colors) {
+        this.parent = new WebsiteGenerator();
         this.colors = colors;
+        this.palette = [];
 
         this.requestColors();
     }
 
     requestColors() {
         const colors = document.querySelectorAll(".color");
-        var palette = [];
 
         const data = {
             model: "ui",
@@ -26,19 +26,15 @@ export default class paletteGenerator extends EventEmitter {
         };
 
         data.input.forEach(e => {
-            const c = `rgb(${e.join(",")})`;
+            const c = e == "N" ? "undefined" : `rgb(${e.join(",")})`;
             console.log(`%c${c}`, `background-color:${c}`);
         })
 
         request("http://colormind.io/api/", "POST", r => {
             const response = JSON.parse(r).result;
+            this.palette = [...response];
 
-            colors.forEach((c, i) => {
-                c.style.backgroundColor = `rgb(${response[i][0]},${response[i][1]},${response[i][2]})`;
-                palette.push(c);
-            })
-
-            this.emit("paletteGenerated");
+            this.parent.emit("paletteGenerated");
         }, data);
     }
 }
