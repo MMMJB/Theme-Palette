@@ -22,8 +22,11 @@ export default class StaggerFill {
 
         var animating = setInterval(_ => {
             if (growing == this.sizes.length - 1 && this.sizes[len - 2] <= 1) {
+                this.elm.style.backgroundColor = this.colors[this.colors.length - 1];
+                this.elm.style.backgroundImage = "";
+
                 this.parent.emit("finishedAnimating");
-                clearInterval(animating);
+                return clearInterval(animating);
             }
 
             for (let i = 0; i < growing; i++)

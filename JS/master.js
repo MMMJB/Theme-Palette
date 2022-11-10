@@ -13,6 +13,10 @@ export default class WebsiteGenerator extends EventEmitter {
         if (WebsiteGenerator.instance) return WebsiteGenerator.instance;
         WebsiteGenerator.instance = this;
 
+        this.generate();
+    }
+    
+    generate() {
         this.themeGenerator = new ThemeGenerator();
        
         this.on("themeGenerated", _ => this.paletteGenerator = new PaletteGenerator(this.themeGenerator.colors));

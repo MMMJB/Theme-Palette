@@ -23,13 +23,13 @@ export default class ThemeGenerator extends EventEmitter {
             const cf = new ColorThief();
             const data = {
                 key: "31117334-98f93316f25d761fec9942630",
-                q: this.theme,
+                q: this.theme.replaceAll(" ", "+"),
                 image_type: "vector",
                 safesearch: true
             }
 
             var query = "";
-            Object.keys(data).forEach(k => query += `${k}=${data[k].toString().replaceAll(" ", "+")}&`);
+            Object.keys(data).forEach(k => query += `${k}=${data[k].toString()}&`);
 
             request(`https://pixabay.com/api/?${query}`, "GET", r => {
                 const response = JSON.parse(r).hits, len = response.length;

@@ -12,8 +12,6 @@ export default class PaletteGenerator {
     }
 
     requestColors() {
-        const colors = document.querySelectorAll(".color");
-
         const data = {
             model: "ui",
             input: [
