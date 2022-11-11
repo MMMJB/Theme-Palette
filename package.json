@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "bootstrap-icons": "^1.9.1",
-    "events": "^3.3.0"
+    "events": "^3.3.0",
+    "scrollreveal": "^4.0.9"
   }
 }

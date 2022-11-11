@@ -18,17 +18,19 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .25);
     border-radius: 50vw;
+}
+
+html {
+    overflow-x: hidden;
 }
 
 body {
     width: 100vw;
-    height: 100vh;
-    background-color: rgb(39, 38, 48);
+    background-color: var(--bc);
     display: flex;
     flex-direction: column;
-    overflow: hidden scroll;
     color: white;
 
     font-family: "DM Serif Display", sans-serif;
@@ -45,17 +47,26 @@ i::before {
     mix-blend-mode: difference;
 }
 
+main, section {
+    height: 100vh;
+    width: 100%;
+}
+
+body[data-ready="false"] > section {
+    display: none;
+}
+
 
 
 header {
+    position: fixed;
+    z-index: 2;
     width: 100%;
-    height: 10%;
-    min-height: 30px;
-    max-height: 50px;
+    height: clamp(30px, 10%, 50px);
     display: flex;
     align-items: center;
     font-size: clamp(1em, 4vw, 1.25em);
-    padding: 8px;
+    padding: 6px;
     gap: 5px;
 }
 
@@ -82,23 +93,33 @@ header {
 
 
 main {
-    width: 100%;
-    flex-grow: 1;
-    display: grid;
-    place-items: center;
+    z-index: 1;
 }
 
-#container {
+body[data-ready="true"] > main::after {
+    content: '';
+    position: absolute;
+    border: 2em solid transparent;
+    border-top: 2em solid var(--ds);
+    left: 50%;
+    translate: -50%;
+}
+
+#main-container {
+    height: 100%;
+    align-items: center;
+    justify-content: center;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    text-align: center;
+    position: relative;
 }
 
 .example-text {
-    text-align: center;
     color: white;
     mix-blend-mode: difference;
-    font-size: clamp(4em, 5vw, 6em);
+    font-size: clamp(3em, 4vw, 8em);
 }
 
 .colors {
@@ -120,4 +141,39 @@ main {
 
 .colors.animating > .color {
     translate: 0 0;
+}
+
+.scroll {
+    font-size: 2em;
+    overflow: hidden;
+    width: 100%;
+    translate: 0 100%;
+}
+
+.scroll::before {
+    translate: 0 -125%;
+    opacity: 0;
+    transition: all 250ms ease-out;
+    transition-delay: 500ms;
+}
+
+.colors.animating + .scroll {
+    animation: scroll-bounce 1s ease-in-out infinite;
+    animation-delay: 500ms;
+}
+
+.colors.animating + .scroll::before {
+    translate: 0 0;
+    opacity: 1;
+}
+
+@keyframes scroll-bounce {
+    0%, 100% { translate: 0 100% }
+    50% { translate: 0 calc(100% + 10px) }
+}
+
+
+
+#sec1 {
+    background-color: var(--ls);
 }

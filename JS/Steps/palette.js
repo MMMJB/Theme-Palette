@@ -25,7 +25,7 @@ export default class PaletteGenerator {
 
         data.input.forEach(e => {
             const c = e == "N" ? "undefined" : `rgb(${e.join(",")})`;
-            console.log(`%c${c}`, `background-color:${c}`);
+            // console.log(`%c${c}`, `background-color:${c}`);
         })
 
         request("http://colormind.io/api/", "POST", r => {
