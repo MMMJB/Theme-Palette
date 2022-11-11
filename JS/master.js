@@ -15,13 +15,13 @@ export default class WebsiteGenerator extends EventEmitter {
         if (WebsiteGenerator.instance) return WebsiteGenerator.instance;
         WebsiteGenerator.instance = this;
 
+        this.generating = false;
+
+        this.setListeners();
         this.generate();
     }
-    
-    generate(theme = undefined, generated = false) {
-        if (!generated) this.themeGenerator = new ThemeGenerator(theme);
-        else this.emit("themeGenerated");
-       
+
+    setListeners() {
         this.on("themeGenerated", _ => this.paletteGenerator = new PaletteGenerator(this.themeGenerator.colors));
 
         this.on("paletteGenerated", _ => {
@@ -51,12 +51,23 @@ export default class WebsiteGenerator extends EventEmitter {
             
             setTimeout(_ => {
                 document.body.dataset.ready = "true";
+                this.generating = false;
+
                 ScrollReveal().reveal(document.querySelectorAll("[slide-in]"), {distance: "100%"})
             }, 500);
         });
     }
+    
+    generate(theme = undefined, generated = false) {
+        this.generating = true;
+
+        if (!generated) this.themeGenerator = new ThemeGenerator(theme);
+        else this.emit("themeGenerated");
+    }
 
     reset() {
+        if (this.generating) return;
+
         document.body.dataset.ready = "false";
         document.querySelector(".colors").classList.remove("animating");
         
