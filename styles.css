@@ -58,6 +58,14 @@ body[data-ready="false"] > section {
 
 
 
+.ls { background-color: var(--ls) }
+.la { background-color: var(--la) }
+.bc { background-color: var(--bc) }
+.da { background-color: var(--da) }
+.ds { background-color: var(--ds) }
+
+
+
 header {
     position: fixed;
     z-index: 2;
@@ -88,6 +96,7 @@ header {
 .header-item.favorite {
     margin-left: auto;
     background: none;
+    color: var(--bc);
 }
 
 
@@ -175,5 +184,60 @@ body[data-ready="true"] > main::after {
 
 
 #sec1 {
-    background-color: var(--ls);
+    --pad: clamp(25px, 5vw, 50px);
+
+    height: auto;
+    padding: var(--pad);
+}
+
+.color-info {
+    margin: 0 auto;
+    width: clamp(100px, 75vw, 500px);
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--pad) * 1.5);
+}
+
+.color-info-card {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.color-info-img {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 2px solid rgba(0, 0, 0, .05);
+    border-radius: 4px;
+    position: relative;
+}
+
+.color-info-img::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    translate: 10% 10%;
+    opacity: .75;
+    
+    background-color: inherit;
+    border-radius: inherit;
+    border: inherit;
+}
+
+.color-info-text {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: var(--da);
+}
+
+.color-info-text[rev] {
+    justify-content: end;
 }

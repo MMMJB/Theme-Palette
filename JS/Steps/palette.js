@@ -15,22 +15,18 @@ export default class PaletteGenerator {
         const data = {
             model: "ui",
             input: [
-                this.colors.ls,
-                this.colors.la,
-                this.colors.bc,
-                this.colors.da,
-                this.colors.ds
+                this.colors.ls.color,
+                this.colors.la.color,
+                this.colors.bc.color,
+                this.colors.da.color,
+                this.colors.ds.color
             ]
         };
-
-        data.input.forEach(e => {
-            const c = e == "N" ? "undefined" : `rgb(${e.join(",")})`;
-            // console.log(`%c${c}`, `background-color:${c}`);
-        })
 
         request("http://colormind.io/api/", "POST", r => {
             const response = JSON.parse(r).result;
             this.palette = [...response];
+            console.log(this.palette);
             
             this.parent.emit("paletteGenerated");
         }, data);

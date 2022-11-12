@@ -52,22 +52,30 @@ export default class ThemeGenerator extends EventEmitter {
                     loaded++;
                     const col = `rgb(${cf.getColor(img).join(",")})`;
 
-                    brightnesses.push([col, brightness(col)]);
+                    brightnesses.push([col, brightness(col), img.src]);
                     // console.log(`%c${brightnesses[brightnesses.length - 1]}`, `background-color:${col}`);
 
                     if (loaded == queue) {
                         brightnesses.sort((a, b) => b[1] - a[1]);
 
-                        const colToArr = col => Array.from(col.replaceAll(/rgb\(|\)/g, "").split(","), e => e = parseFloat(e));
+                        const colToArr = col => !col ? "N" : Array.from(col.replaceAll(/rgb\(|\)/g, "").split(","), e => e = parseFloat(e));
                         const numB = brightnesses.length;
+                        this.colors = { ls: "", la: "", bc: "", da: "", ds: "" }
 
-                        this.colors = {
-                            ls: colToArr(brightnesses[0][0]),
-                            la: len % 4 == 0 ? colToArr(brightnesses[Math.floor(numB / 4)][0]) : "N",
-                            bc: colToArr(brightnesses[Math.floor(numB / 2)][0]),
-                            da: len % 4 == 0 ? colToArr(brightnesses[Math.floor(numB * (3 / 4))][0]) : "N",
-                            ds: colToArr(brightnesses[numB - 1][0])
-                        }
+                        const indexes = [
+                            brightnesses[0],
+                            len % 4 == 0 ? brightnesses[Math.floor(numB / 4)] : [],
+                            brightnesses[Math.floor(numB / 2)],
+                            len % 4 == 0 ? brightnesses[Math.floor(numB * (3 / 4))] : [],
+                            brightnesses[brightnesses.length - 1]
+                        ]
+
+                        indexes.forEach((b, i) => {
+                            this.colors[Object.keys(this.colors)[i]] = {
+                                color: colToArr(b[0]),
+                                image: b[2]
+                            }
+                        })
 
                         this.parent.emit("themeGenerated");
                     }

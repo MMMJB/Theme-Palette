@@ -27,14 +27,11 @@ export default class WebsiteGenerator extends EventEmitter {
         this.on("paletteGenerated", _ => {
             window.scrollTo(0, 0);
 
-            const colors = Array.from(this.paletteGenerator.palette, c => `rgb(${c.join(",")})`);
+            this.fColors = Array.from(this.paletteGenerator.palette, c => `rgb(${c.join(",")})`);
             const colorElms = document.querySelectorAll(".color");
 
-            colors.forEach((c, i) => {
-                if (colorElms[i]) {
-                    colorElms[i].style.backgroundColor = c;
-                    colorElms[i].style.transitionDelay = `${i * 50}ms`;
-                }
+            this.fColors.forEach((c, i) => {
+                if (colorElms[i]) colorElms[i].style.transitionDelay = `${i * 50}ms`;
 
                 document.documentElement.style.setProperty(
                     `--${Object.keys(this.themeGenerator.colors)[i]}`,
@@ -53,7 +50,9 @@ export default class WebsiteGenerator extends EventEmitter {
                 document.body.dataset.ready = "true";
                 this.generating = false;
 
-                ScrollReveal().reveal(document.querySelectorAll("[slide-in]"), {distance: "100%"})
+                ScrollReveal().reveal(document.querySelectorAll("[slide-in]"), {distance: "125%"})
+            
+                this.generateCards();
             }, 500);
         });
     }
@@ -70,7 +69,38 @@ export default class WebsiteGenerator extends EventEmitter {
 
         document.body.dataset.ready = "false";
         document.querySelector(".colors").classList.remove("animating");
-        
+        document.querySelector(".header-item.copy > i").classList.replace("bi-clipboard-check", "bi-clipboard");
+
         this.generate(this.themeGenerator.theme.toLowerCase().replace(".", ""), true);
+    }
+
+    generateCards() {
+        const list = document.querySelector("ul.color-info");
+
+        while (list.firstChild)
+            list.removeChild(list.firstChild);
+
+        function generateCard(img, col, text, flip) {
+            const imgEl = `<a class="color-info-img ${col}" style="background-image:url(${img})" href=${img} target="_blank"></a>`;
+            const textEl = `<p class="color-info-text" ${flip ? "rev" : ""}>${text}</p>`;
+
+            list.innerHTML += `
+                <li class="color-info-card">
+                    ${flip ? textEl : imgEl}
+                    ${flip ? imgEl : textEl}
+                </li>
+            `
+        }
+
+        Object.keys(this.themeGenerator.colors).forEach((c, i) => {
+            const targ = this.themeGenerator.colors[c];
+            
+            generateCard(
+                targ.image || "undefined.png",
+                Object.keys(this.themeGenerator.colors)[i],
+                undefined,
+                i % 2 == 0
+            );
+        })
     }
 }
