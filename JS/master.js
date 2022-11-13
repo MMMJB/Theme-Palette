@@ -32,7 +32,10 @@ export default class WebsiteGenerator extends EventEmitter {
             const colorElms = document.querySelectorAll(".color");
 
             this.fColors.forEach((c, i) => {
-                if (colorElms[i]) colorElms[i].style.transitionDelay = `${i * 50}ms`;
+                if (colorElms[i]) {
+                    colorElms[i].style.transitionDelay = `${i * 50}ms`;
+                    colorElms[i].setAttribute("copy", c);
+                }
 
                 document.documentElement.style.setProperty(
                     `--${Object.keys(this.themeGenerator.colors)[i]}`,
@@ -47,6 +50,7 @@ export default class WebsiteGenerator extends EventEmitter {
         this.on("finishedAnimating", _ => {
             document.querySelector(".colors").classList.add("animating");
             this.cardGenerator = new CardGenerator();
+            document.querySelector(".header-item.copy").setAttribute("copy", this.fColors.join(", "));
         });
 
         this.on("cardsGenerated", _ => {
@@ -54,7 +58,7 @@ export default class WebsiteGenerator extends EventEmitter {
                 document.body.dataset.ready = "true";
                 this.generating = false;
     
-                ScrollReveal().reveal(document.querySelectorAll("[slide-in]"), {distance: "125%"})
+                ScrollReveal().reveal("[slide-in]", {distance: "125%", opacity: 1})
             }, 1000)
         })
     }
@@ -72,7 +76,10 @@ export default class WebsiteGenerator extends EventEmitter {
         document.body.dataset.ready = "false";
         document.querySelector(".colors").classList.remove("animating");
         document.querySelector(".header-item.copy > i").classList.replace("bi-clipboard-check", "bi-clipboard");
+        document.querySelector(".header-item.favorite > i").classList.replace("bi-star-fill", "bi-star");
 
-        this.generate(this.themeGenerator.theme.toLowerCase().replace(".", ""), true);
+        document.querySelectorAll("[slide-in]").forEach(e => e.style.transform = "");
+
+        setTimeout(_ => this.generate(this.themeGenerator.theme.toLowerCase().replace(".", ""), true), 600);
     }
 }

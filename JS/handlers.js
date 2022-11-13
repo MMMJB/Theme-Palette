@@ -16,18 +16,43 @@ export default class Handlers {
             website.reset();
         }
     
-        document.querySelector(".header-item.copy").onclick = _ => {
-            if (!website.staggerFill) return;
+        document.querySelectorAll("*").forEach(e => e.addEventListener("click", e => {
+            const targ = e.target;
+            if (!targ.getAttribute("copy") && !targ.parentElement.getAttribute("copy")) return;
+
+            const copyText = targ.getAttribute("copy") || targ.parentElement.getAttribute("copy");
+            navigator.clipboard.writeText(copyText);
     
-            navigator.clipboard.writeText(website.staggerFill.colors.join(", "));
-    
-            document.querySelector(".header-item.copy > i").classList.replace("bi-clipboard", "bi-clipboard-check");
-        }
+            if (targ.tagName == "I") targ.classList.replace("bi-clipboard", "bi-clipboard-check");
+            else if (targ.querySelector("i")) targ.querySelector("i").classList.replace("bi-clipboard", "bi-clipboard-check");
+        }))
     
         document.querySelector(".header-item.favorite").onclick = _ => {
             const icon = document.querySelector(".header-item.favorite > i");
-            if (icon.classList.contains("bi-star")) icon.classList.replace("bi-star", "bi-star-fill");
-            else icon.classList.replace("bi-star-fill", "bi-star");
+            
+            if (icon.classList.contains("bi-star")) {
+                if (!window.localStorage.getItem("savedThemes")) window.localStorage.setItem("savedThemes", "[]");
+                var saved = JSON.parse(window.localStorage.getItem("savedThemes"));
+
+                saved.push({
+                    theme: website.themeGenerator.theme.toLowerCase().replace(".", ""),
+                    colors: website.fColors,
+                    images: Array.from(Object.keys(website.themeGenerator.colors), c => website.themeGenerator.colors[c].image)
+                })
+
+                window.localStorage.setItem("savedThemes", JSON.stringify(saved));
+
+                icon.classList.replace("bi-star", "bi-star-fill");
+            } else {
+                var saved = JSON.parse(window.localStorage.getItem("savedThemes"));
+                saved.splice(saved.findIndex(t => t.colors.toString() == website.fColors.toString()), 1);
+
+                window.localStorage.setItem("savedThemes", JSON.stringify(saved));
+
+                icon.classList.replace("bi-star-fill", "bi-star");
+            }
         }
+
+        document.querySelectorAll("*:not(a, link)[href]").forEach(e => e.onclick = e => window.open(e.target.getAttribute("href"), "_blank"));
     }
 }

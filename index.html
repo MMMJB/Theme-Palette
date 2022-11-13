@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experimenting</title>
+    <title>Color Palette Generator</title>
 
     <link rel="stylesheet" href="styles.css">
     <script src="JS/app.js" type="module" defer></script>
@@ -11,11 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
 </head>
 <body data-ready="false">
+    <section id="prompt">
+        <div id="particles-container"></div>
+    </section>
     <header>
         <div class="header-item refresh">
             <i class="bi bi-arrow-clockwise"></i>
         </div>
-        <div class="header-item copy">
+        <div class="header-item copy" copy="Hold your horses!">
             <i class="bi bi-clipboard"></i>
         </div>
         <div class="header-item favorite">
@@ -37,5 +40,13 @@
     <section id="sec1" class="ls" slide-in>
         <ul class="color-info"></ul>
     </section>
+    <footer class="ds">
+        <div class="footer-item github">
+            <i class="bi bi-github" href="https://github.com/MMMJB/ML-Testing"></i>
+        </div>
+        <div class="footer-item credits">
+            <span>Powered by <a href="https://pixabay.com/" target="_blank">Pixabay</a> and <a href="http://colormind.io/" target="_blank">Colormind</a>.</span>
+        </div>
+    </footer>
 </body>
 </html>
