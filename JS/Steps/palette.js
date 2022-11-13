@@ -26,7 +26,6 @@ export default class PaletteGenerator {
         request("http://colormind.io/api/", "POST", r => {
             const response = JSON.parse(r).result;
             this.palette = [...response];
-            console.log(this.palette);
             
             this.parent.emit("paletteGenerated");
         }, data);

@@ -5,6 +5,7 @@ import ScrollReveal from "scrollreveal";
 import ThemeGenerator from "./Steps/theme";
 import PaletteGenerator from "./Steps/palette";
 import StaggerFill from "./Steps/staggerfill";
+import CardGenerator from "./Steps/cards";
 
 export default class WebsiteGenerator extends EventEmitter {
     static instance;
@@ -45,16 +46,17 @@ export default class WebsiteGenerator extends EventEmitter {
 
         this.on("finishedAnimating", _ => {
             document.querySelector(".colors").classList.add("animating");
-            
+            this.cardGenerator = new CardGenerator();
+        });
+
+        this.on("cardsGenerated", _ => {
             setTimeout(_ => {
                 document.body.dataset.ready = "true";
                 this.generating = false;
-
+    
                 ScrollReveal().reveal(document.querySelectorAll("[slide-in]"), {distance: "125%"})
-            
-                this.generateCards();
-            }, 500);
-        });
+            }, 1000)
+        })
     }
     
     generate(theme = undefined, generated = false) {
@@ -72,35 +74,5 @@ export default class WebsiteGenerator extends EventEmitter {
         document.querySelector(".header-item.copy > i").classList.replace("bi-clipboard-check", "bi-clipboard");
 
         this.generate(this.themeGenerator.theme.toLowerCase().replace(".", ""), true);
-    }
-
-    generateCards() {
-        const list = document.querySelector("ul.color-info");
-
-        while (list.firstChild)
-            list.removeChild(list.firstChild);
-
-        function generateCard(img, col, text, flip) {
-            const imgEl = `<a class="color-info-img ${col}" style="background-image:url(${img})" href=${img} target="_blank"></a>`;
-            const textEl = `<p class="color-info-text" ${flip ? "rev" : ""}>${text}</p>`;
-
-            list.innerHTML += `
-                <li class="color-info-card">
-                    ${flip ? textEl : imgEl}
-                    ${flip ? imgEl : textEl}
-                </li>
-            `
-        }
-
-        Object.keys(this.themeGenerator.colors).forEach((c, i) => {
-            const targ = this.themeGenerator.colors[c];
-            
-            generateCard(
-                targ.image || "undefined.png",
-                Object.keys(this.themeGenerator.colors)[i],
-                undefined,
-                i % 2 == 0
-            );
-        })
     }
 }

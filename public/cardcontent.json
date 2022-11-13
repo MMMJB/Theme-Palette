@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Light Shade.",
+        "content": "Typically used as a background on lighter designs or as a text color on darker designs, this color is often blindingly white."
+    },
+    {
+        "title": "Light Accent.",
+        "content": "A variation of the light shade to add visual interest to a design. Hues can vary greatly, but are generally on the light side."
+    },
+    {
+        "title": "Brand Color.",
+        "content": "An eye-catching color that serves as the main brand identity. It should be used sparingly, yet be clearly recognizable."
+    },
+    {
+        "title": "Dark Accent.",
+        "content": "Just like the light accent, it is often a slight variation of its shady counterpart."
+    },
+    {
+        "title": "Dark Shade.",
+        "content": "An inverse of the light shade- serves as a background for a darker design or as a text color on lighter designs."
+    }
+]
