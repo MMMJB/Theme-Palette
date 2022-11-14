@@ -1,5 +1,5 @@
-import WebsiteGenerator from "./master";
-import Handlers from "./handlers";
+import WebsiteGenerator from "./master.js";
+import Handlers from "./handlers.js";
 
 window.onload = _ => {
     const website = new WebsiteGenerator();

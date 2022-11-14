@@ -1,6 +1,6 @@
-import WebsiteGenerator from "../master";
+import WebsiteGenerator from "../master.js";
 
-import lerp from "../Utils/lerp";
+import lerp from "../Utils/lerp.js";
 
 export default class StaggerFill {
     constructor (elm, colors) {

@@ -2,10 +2,10 @@ import { EventEmitter } from "events";
 
 import ScrollReveal from "scrollreveal";
 
-import ThemeGenerator from "./Steps/theme";
-import PaletteGenerator from "./Steps/palette";
-import StaggerFill from "./Steps/staggerfill";
-import CardGenerator from "./Steps/cards";
+import ThemeGenerator from "./Steps/theme.js";
+import PaletteGenerator from "./Steps/palette.js";
+import StaggerFill from "./Steps/staggerfill.js";
+import CardGenerator from "./Steps/cards.js";
 
 export default class WebsiteGenerator extends EventEmitter {
     static instance;

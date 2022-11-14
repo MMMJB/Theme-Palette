@@ -1,9 +1,9 @@
 import { EventEmitter } from "events";
 
-import WebsiteGenerator from "../master";
+import WebsiteGenerator from "../master.js";
 
-import request from "../Utils/requests";
-import brightness from "../Utils/brightness";
+import request from "../Utils/requests.js";
+import brightness from "../Utils/brightness.js";
 
 export default class ThemeGenerator extends EventEmitter {
     constructor(theme) {

@@ -1,6 +1,6 @@
-import WebsiteGenerator from "../master";
+import WebsiteGenerator from "../master.js";
 
-import request from "../Utils/requests";
+import request from "../Utils/requests.js";
 
 export default class CardGenerator {
     constructor () {
