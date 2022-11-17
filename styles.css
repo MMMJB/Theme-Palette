@@ -96,6 +96,7 @@ body[data-ready="false"] > *:not(main, header, #prompt) {
     z-index: 999;
     display: grid;
     place-items: center;
+    transition: opacity 250ms ease-out;
 
     background-color: white;
     background-image: radial-gradient(rgba(0, 0, 0, .05) 20%, white 20%);

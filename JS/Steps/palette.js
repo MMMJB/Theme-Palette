@@ -8,6 +8,7 @@ export default class PaletteGenerator {
         this.colors = colors;
         this.palette = [];
 
+        console.log("Modifying palette...");
         this.requestColors();
     }
 

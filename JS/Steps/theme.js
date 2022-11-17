@@ -36,6 +36,8 @@ export default class ThemeGenerator extends EventEmitter {
         var query = "";
         Object.keys(data).forEach(k => query += `${k}=${data[k].toString()}&`);
 
+        console.log("Processing images...");
+
         request(`https://pixabay.com/api/?${query}`, "GET", r => {
             const response = JSON.parse(r).hits, len = response.length;
             if (!response || len < 3) return this.parent.emit("themeGenerationError");

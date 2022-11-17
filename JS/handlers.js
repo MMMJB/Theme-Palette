@@ -10,6 +10,9 @@ export default class Handlers {
             const theme = document.querySelector(".form-input[name='enterTheme']").value.toLowerCase();
             const samples = document.querySelector(".form-input[name='enterImg']").value;
 
+            const validSamples = Array.from([...document.querySelectorAll(".form-input[name='enterImg'] > option")], e => e.value);
+            if (!validSamples.includes(samples)) return;
+
             website.themeGenerator.theme = theme;
             website.themeGenerator.generateColors(samples);
         };

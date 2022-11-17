@@ -27,6 +27,9 @@ export default class WebsiteGenerator extends EventEmitter {
         this.on("themeGenerationError", _ => document.querySelector(".form-input[name='enterTheme']").setAttribute("invalid", ""))
 
         this.on("paletteGenerated", _ => {
+            document.getElementById("prompt").style.opacity = 0;
+            setTimeout(_ => document.getElementById("prompt").style.display = "none", 250);
+
             window.scrollTo(0, 0);
 
             this.fColors = Array.from(this.paletteGenerator.palette, c => `rgb(${c.join(",")})`);
