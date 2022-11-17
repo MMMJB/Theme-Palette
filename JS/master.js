@@ -17,13 +17,14 @@ export default class WebsiteGenerator extends EventEmitter {
         WebsiteGenerator.instance = this;
 
         this.generating = false;
+        this.themeGenerator = new ThemeGenerator();
 
         this.setListeners();
-        this.generate();
     }
 
     setListeners() {
         this.on("themeGenerated", _ => this.paletteGenerator = new PaletteGenerator(this.themeGenerator.colors));
+        this.on("themeGenerationError", _ => document.querySelector(".form-input[name='enterTheme']").setAttribute("invalid", ""))
 
         this.on("paletteGenerated", _ => {
             window.scrollTo(0, 0);
@@ -63,10 +64,10 @@ export default class WebsiteGenerator extends EventEmitter {
         })
     }
     
-    generate(theme = undefined, generated = false) {
+    generate(generated = false) {
         this.generating = true;
 
-        if (!generated) this.themeGenerator = new ThemeGenerator(theme);
+        if (!generated) this.themeGenerator.generateColors();
         else this.emit("themeGenerated");
     }
 

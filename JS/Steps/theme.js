@@ -12,24 +12,24 @@ export default class ThemeGenerator extends EventEmitter {
         this.parent = new WebsiteGenerator();
         this.theme = theme;
 
-        if (!this.theme) {
-            request("/themes.txt", "GET", r => {
-                const response = r.split("\n");
-    
-                this.theme = response[Math.floor(Math.random() * response.length)];
-                this.emit("themeChosen");
-            })
-        } else this.generateColors();
-
-        this.on("themeChosen", _ => this.generateColors());
+        // this.on("themeChosen", _ => this.generateColors());
     }
 
-    generateColors() {
+    generateTheme() {
+        request("/themes.txt", "GET", r => {
+            const response = r.split("\n");
+            this.theme = response[Math.floor(Math.random() * response.length)];
+
+            document.querySelector("input[name='enterTheme']").value = `${this.theme[0].toUpperCase()}${this.theme.substring(1)}`
+        })
+    }
+
+    generateColors(samples) {
         const cf = new ColorThief();
         const data = {
             key: "31117334-98f93316f25d761fec9942630",
-            q: this.theme.replaceAll(" ", "+"),
-            image_type: "vector",
+            q: this.theme.toLowerCase().replaceAll(" ", "+"),
+            image_type: samples || "all",
             safesearch: true
         }
 

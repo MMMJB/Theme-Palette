@@ -170,6 +170,19 @@ body[data-ready="false"] > *:not(main, header, #prompt) {
     position: relative;
 }
 
+.form-input[invalid] {
+    border: 1px solid #DC4C64;
+}
+
+.form-section:has(.form-input[invalid]:not(:focus))::after {
+    content: "Insufficient samples. Try a different theme!";
+    position: absolute;
+    font-size: clamp(8px, 2vw, 10px);
+    bottom: 0;
+    translate: 0 100%;
+    color: #DC4C64;
+}
+
 .form-label {
     color: var(--light-gray);
     font-size: clamp(10px, 2vw, 12px);
@@ -180,10 +193,14 @@ body[data-ready="false"] > *:not(main, header, #prompt) {
     position: absolute;
     bottom: .5em;
     right: .5em;
+    cursor: pointer;
 }
 
 select {
     appearance: none;
+    z-index: 1;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .form-submit {
@@ -193,6 +210,11 @@ select {
     padding: 8px;
     font-size: 16px;
     font-weight: 500;
+    transition: scale 250ms ease-out;
+}
+
+.form-submit:hover {
+    scale: 1.05;
 }
 
 

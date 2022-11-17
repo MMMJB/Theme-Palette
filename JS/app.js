@@ -7,5 +7,7 @@ window.onload = _ => {
     const formBG = new BlobMorph(document.querySelector(".form-bg > path"));
 
     const website = new WebsiteGenerator();
+    website.themeGenerator.generateTheme();
+
     const handlers = new Handlers(website);
 };

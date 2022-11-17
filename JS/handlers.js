@@ -1,6 +1,20 @@
 export default class Handlers {
     constructor (website) {
-        document.querySelector(".refresh").onclick = _ => {
+        document.querySelector(".form-icon.refresh").onclick = _ => website.themeGenerator.generateTheme();
+
+        document.querySelector("#theme-form").onsubmit = e => {
+            e.preventDefault();
+            
+            document.querySelectorAll("[invalid]").forEach(e => e.removeAttribute("invalid"));
+
+            const theme = document.querySelector(".form-input[name='enterTheme']").value.toLowerCase();
+            const samples = document.querySelector(".form-input[name='enterImg']").value;
+
+            website.themeGenerator.theme = theme;
+            website.themeGenerator.generateColors(samples);
+        };
+
+        document.querySelector(".header-item.refresh").onclick = _ => {
             document.querySelector(".refresh > i").animate(
                 [
                     { transform: "rotate(0)" },
